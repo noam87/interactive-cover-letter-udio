@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Noam Interview</title>
+    <style>
+      body {
+        background-image: url("green_cup.png");
+        color: #694E46;
+      }
+
+      #wrapper {
+        padding: 30px;
+      }
+
+      #content {
+        background-image: url("fabric_background.png");
+        width: 600px;
+        min-height: 300px;
+        margin: 0 auto;
+        border: white 1px;
+        border-style: dashed;
+        box-shadow: black 3px 8px 25px 3px;
+        padding: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="content">
+        <h1>Foo bar baz.</h1>
+      </div>
+    </div>
+
+    <!-- ........................   Javascripts  ........................... -->
+
+    <script src="build/react-with-addons.js"></script>
+    <script src="build/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+    <script type="text/babel">
+      var NAME = "";
+
+      var AskForName = React.createClass({
+        render: function() {
+          return (
+            <p>Hi! What's your name?</p>
+          );
+        }
+      });
+
+      // Slide element to either show or hide contents.
+      var Slide = React.createClass({
+        getInitialState: function() {
+          return {shouldHide: true};
+        },
+
+        hide: function() {
+          this.setState({shouldHide: true});
+        },
+
+        show: function() {
+          this.setState({shouldHide: false});
+        },
+
+        render: function() {
+          var children = function(that) {
+            return React.Children.map(that.props.children, function(child) {
+              return React.cloneElement(
+                child,
+                {hide: that.hide}
+              );
+            });
+          };
+
+          return (
+            <div className={this.state.shouldHide ? 'hidden' : ''}>
+              {children(this)}
+            </div>
+          );
+        }
+      });
+
+      var Contents = React.createClass({
+        render: function() {
+          return (
+           <Slide show={showAskForName}><AskForName /></Slide>
+          );
+        }
+      });
+
+
+      ReactDOM.render(
+        <Contents />,
+        document.getElementById('content')
+      );
+    </script>
+  </body>
+</html>
