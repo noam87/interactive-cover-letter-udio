@@ -44,10 +44,54 @@
     <script type="text/babel">
       var NAME = "";
 
+      //////////////////////////////////////////////////////////////////////////
+      // Helper functions
+
+      // Register an event that only shows name of slide.
+      var onlyShowSlide = function(slide, that) {
+        document.addEventListener('showslide', function(e) {
+          if (e.detail == slide) {
+            console.log("Showing slide: ", slide);
+            that.props.show();
+          } else  {
+            console.log("Hiding slide: ", slide);
+            that.props.hide();
+          }
+        });
+      }
+
+      window.showSlide = function(slide) {
+        console.log("Turning to slide ", slide);
+        var slideEvent = new CustomEvent('showslide', { detail: slide })
+        document.dispatchEvent(slideEvent);
+      };
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // React components
+
       var AskForName = React.createClass({
+        componentDidMount: function() {
+          console.log("Registering....")
+          onlyShowSlide('AskForName', this);
+        },
+
         render: function() {
           return (
             <p>Hi! What's your name?</p>
+          );
+        }
+      });
+
+      var AskForName2 = React.createClass({
+        componentDidMount: function() {
+          console.log("Registering....")
+          onlyShowSlide('AskForName2', this);
+        },
+
+        render: function() {
+          return (
+            <p>Hi! What's your name?????</p>
           );
         }
       });
@@ -71,7 +115,7 @@
             return React.Children.map(that.props.children, function(child) {
               return React.cloneElement(
                 child,
-                {hide: that.hide}
+                {hide: that.hide, show: that.show}
               );
             });
           };
@@ -87,7 +131,8 @@
       var Contents = React.createClass({
         render: function() {
           return (
-           <Slide show={showAskForName}><AskForName /></Slide>
+           <div><Slide><AskForName /></Slide>
+           <Slide><AskForName2 /></Slide></div>
           );
         }
       });
