@@ -3,10 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Noam Interview</title>
+    <link href='https://fonts.googleapis.com/css?family=Caudex:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <style>
       body {
         background-image: url("green_cup.png");
         color: #694E46;
+        font-family: 'Caudex', serif;
+        font-size: 16px;
       }
 
       #wrapper {
@@ -32,7 +35,7 @@
   <body>
     <div id="wrapper">
       <div id="content">
-        <h1>Foo bar baz.</h1>
+        <h1>Loading...</h1>
       </div>
     </div>
 
@@ -70,28 +73,68 @@
       //////////////////////////////////////////////////////////////////////////
       // React components
 
+
+      // Ask for name
+
       var AskForName = React.createClass({
         componentDidMount: function() {
-          console.log("Registering....")
           onlyShowSlide('AskForName', this);
         },
 
         render: function() {
           return (
-            <p>Hi! What's your name?</p>
+            <div>
+              <p>Hi there! What's your name?</p>
+              <NameForm />
+            </div>
           );
         }
       });
 
-      var AskForName2 = React.createClass({
-        componentDidMount: function() {
-          console.log("Registering....")
-          onlyShowSlide('AskForName2', this);
+      var NameForm = React.createClass({
+        getInitialState: function() {
+          return {name: ''};
+        },
+
+        handleNameChange: function(e) {
+          this.setState({name: e.target.value});
+        },
+
+        handleSubmit: function(e) {
+          console.log("pooooo")
+          e.preventDefault();
+          NAME = this.state.name.trim();
+          if (this.state.name == '') { return; }
+          showSlide('Welcome');
         },
 
         render: function() {
           return (
-            <p>Hi! What's your name?????</p>
+            <form className="commentForm" onSubmit={this.handleSubmit}>
+              <input
+                type="text"
+                placeholder="Your name"
+                value={this.state.name}
+                onChange={this.handleNameChange}
+              />
+              <input type="submit" value="Post" />
+            </form>
+          );
+        }
+      });
+
+      // Welcome
+
+      var Welcome = React.createClass({
+        componentDidMount: function() {
+          onlyShowSlide('Welcome', this);
+        },
+
+        render: function() {
+          return (
+            <p>
+              Oh, nice to see you again, {NAME}.
+            </p>
           );
         }
       });
@@ -99,7 +142,7 @@
       // Slide element to either show or hide contents.
       var Slide = React.createClass({
         getInitialState: function() {
-          return {shouldHide: true};
+          return {shouldHide: this.props.hideOnStart};
         },
 
         hide: function() {
@@ -131,8 +174,10 @@
       var Contents = React.createClass({
         render: function() {
           return (
-           <div><Slide><AskForName /></Slide>
-           <Slide><AskForName2 /></Slide></div>
+            <div>
+              <Slide hideOnStart={false}><AskForName /></Slide>
+              <Slide hideOnStart={true}><Welcome /></Slide>
+            </div>
           );
         }
       });
