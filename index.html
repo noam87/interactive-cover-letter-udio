@@ -153,16 +153,20 @@
               </p>
 
               <p>
-                I wrote this from scratch on Sunday over just a few hours. I used
-                Facebook's <a href="https://facebook.github.io/react/" target="blank">React library</a>. I've never used React before, so I had
-                to learn it as I went.
+                I wrote this from scratch on Sunday evening over just a few hours. I used
+                Facebook's <a href="https://facebook.github.io/react/" target="blank">React library</a>.
+              </p> 
+              <p>
+                I've never used React before, so I had
+                to learn it as I went. So relly this is also just my excuse
+                to finally try it... it's really nice!
               </p>
 
               <p>
-                I know you're a little worried because I've not coded in
+                Anyway... I know you're a little worried because I've not coded in
                 Node / Mongo for a while, and haven't used Angular... but as
                 you can see, learning new frameworks is pretty easy (even in
-                one day)!
+                just a few hours)!
               </p>
 
               <form onSubmit={this.nextPage}>
@@ -199,7 +203,7 @@
               </p>
 
               <p>
-                I imagine working at an innovative tech company like dio
+                I imagine working at an innovative tech company like Udio
                 I'll be doing a lot of that. So
                 that's <span className="reason">REASON #1</span> why I would like to work
                 at Udio.
@@ -257,7 +261,7 @@
           return (
             <div>
               <p>
-                Because frameworks=of-the-week come and go, the cool
+                Because frameworks-of-the-week come and go, the cool
                 part is understanding
                 how to use solid software development principles to
                 tackles <em>any</em> unknown problem!
@@ -271,10 +275,10 @@
               </p>
 
               <p>
-                Which leads me to <span className="reason">REASON #2</span>
-                why I would like to join Udio. Which is that I'll get to learn
+                Which leads me to <span className="reason">REASON #2</span> why I
+                would like to join Udio. Which is that I'll get to learn
                 lots of new things and solve new problems in a domain I've never
-                worked!
+                worked in before!
               </p>
 
               <p>
@@ -305,7 +309,7 @@
 
         calculate: function(e) {
           e.preventDefault();
-          
+ 
           var that = this;
           var blocksMatch = function(elem) {
             return elem.block1 == that.state.block1 &&
@@ -350,7 +354,7 @@
 
         nextPage: function(e) {
           e.preventDefault();
-          showSlide('OnSlides');
+          showSlide('End');
         },
 
         handleChange: function(e) {
@@ -412,6 +416,12 @@
               <p>
                 RESULT: {this.state.result}
               </p>
+
+              <br />
+
+              <form onSubmit={this.nextPage}>
+                <input type="submit" value="END" />
+              </form>
             </div>
           );
         }
@@ -484,6 +494,40 @@
         }
       });
 
+      // End
+
+      var End = React.createClass({
+        componentDidMount: function() {
+          onlyShowSlide('End', this);
+        },
+
+        render: function() {
+          return (
+            <div>
+              <p>
+                Okay, it's 1 AM. Time for me to go to sleep. Tomorrow's Monday
+                and I have to go back to work. Which finally brings us
+                to <span className="reason">REASON #3</span>:
+              </p>
+
+              <p>
+                It's hard to sleep at night if you're haven't spent the day
+                doing something you love.
+              </p>
+
+              <p>
+                ZZZZZZZZZ
+              </p>
+
+              <p>
+                <small>Really I didn't know how to finish this.
+                It really is 1AM and I'm tired!</small>
+              </p>
+            </div>
+          );
+        }
+      });
+
       //////////////////////////////////////////////////////////////////////////
       // Slides Logic
 
@@ -529,6 +573,7 @@
               <Slide hideOnStart={true}><OnSlides /></Slide>
               <Slide hideOnStart={true}><Principles /></Slide>
               <Slide hideOnStart={true}><WaterPressure /></Slide>
+              <Slide hideOnStart={true}><End /></Slide>
             </div>
           );
         }
