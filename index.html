@@ -300,9 +300,9 @@
         getInitialState: function() {
           return {
             allDays: [],
-            block1: false,
-            block2: false,
-            block3: false,
+            pump1: false,
+            pump2: false,
+            pump3: false,
             result: 0
           };
         },
@@ -311,10 +311,10 @@
           e.preventDefault();
  
           var that = this;
-          var blocksMatch = function(elem) {
-            return elem.block1 == that.state.block1 &&
-              elem.block2 == that.state.block2 &&
-              elem.block3 == that.state.block3
+          var pumpsMatch = function(elem) {
+            return elem.pump1 == that.state.pump1 &&
+              elem.pump2 == that.state.pump2 &&
+              elem.pump3 == that.state.pump3
           }
 
           var sum = function(values) {
@@ -334,7 +334,7 @@
             return sum / n
           };
 
-          var matchingDays = this.state.allDays.filter(blocksMatch)
+          var matchingDays = this.state.allDays.filter(pumpsMatch)
           var sumOfFlows = sum(flows(matchingDays));
           console.log(matchingDays, sumOfFlows)
 
@@ -358,12 +358,12 @@
         },
 
         handleChange: function(e) {
-          if (e.target.name == "block1") {
-            this.setState({block1: e.target.checked});
-          } else if (e.target.name == "block2") {
-            this.setState({block2: e.target.checked});
-          } else if (e.target.name == "block3") {
-            this.setState({block3: e.target.checked});
+          if (e.target.name == "pump1") {
+            this.setState({pump1: e.target.checked});
+          } else if (e.target.name == "pump2") {
+            this.setState({pump2: e.target.checked});
+          } else if (e.target.name == "pump3") {
+            this.setState({pump3: e.target.checked});
           }
         },
 
@@ -374,8 +374,8 @@
 
         render: function() {
           var days = this.state.allDays.map(function(day) {
-            return <li><Day block1={day.block1} block2={day.block2}
-                            block3={day.block3} flow={day.flow} /></li>
+            return <li><Day pump1={day.pump1} pump2={day.pump2}
+                            pump3={day.pump3} flow={day.flow} /></li>
           });
 
           return (
@@ -393,14 +393,14 @@
 
               <form onSubmit={this.calculate}>
 
-                <label><input type="checkbox" name="block1"
-                  onChange={this.handleChange} />Block 1</label>
+                <label><input type="checkbox" name="pump1"
+                  onChange={this.handleChange} />Pump 1</label>
 
-                <label><input type="checkbox" name="block2"
-                  onChange={this.handleChange} />Block 2</label>
+                <label><input type="checkbox" name="pump2"
+                  onChange={this.handleChange} />Pump 2</label>
 
-                <label><input type="checkbox" name="block3"
-                  onChange={this.handleChange} />Block 3</label>
+                <label><input type="checkbox" name="pump3"
+                  onChange={this.handleChange} />Pump 3</label>
 
                 <br />
 
@@ -428,43 +428,43 @@
       });
 
       var Day = React.createClass({
-        showBlock: function(bool) {
+        showPump: function(bool) {
           return bool ? "on" : "off"
         },
 
         render: function() {
-          return (<div>Blocks:
-            &nbsp;{this.showBlock(this.props.block1)}
-            &nbsp;{this.showBlock(this.props.block2)}
-            &nbsp;{this.showBlock(this.props.block3)} | Water Flow: {this.props.flow}</div>);
+          return (<div>Pumps:
+            &nbsp;{this.showPump(this.props.pump1)}
+            &nbsp;{this.showPump(this.props.pump2)}
+            &nbsp;{this.showPump(this.props.pump3)} | Water Flow: {this.props.flow}</div>);
         }
       });
 
       var NewDay = React.createClass({
         getInitialState: function() {
-          return {flow: 0, block1: false, block2: false, block3: false};
+          return {flow: 0, pump1: false, pump2: false, pump3: false};
         },
 
         onSubmit: function(e) {
           e.preventDefault();
           this.props.addDay({
             flow: this.state.flow,
-            block1: this.state.block1,
-            block2: this.state.block2,
-            block3: this.state.block3
+            pump1: this.state.pump1,
+            pump2: this.state.pump2,
+            pump3: this.state.pump3
           });
         },
 
         handleChange: function(e) {
           if (e.target.name == "flow") {
             this.setState({flow: e.target.value});
-          } else if (e.target.name == "block1") {
-            this.setState({block1: e.target.checked});
-          } else if (e.target.name == "block2") {
+          } else if (e.target.name == "pump1") {
+            this.setState({pump1: e.target.checked});
+          } else if (e.target.name == "pump2") {
             console.log("targetname", e.target.name, e.target.checked)
-            this.setState({block2: e.target.checked});
-          } else if (e.target.name == "block3") {
-            this.setState({block3: e.target.checked});
+            this.setState({pump2: e.target.checked});
+          } else if (e.target.name == "pump3") {
+            this.setState({pump3: e.target.checked});
           }
         },
 
@@ -474,14 +474,14 @@
         render: function() {
           return (<form onSubmit={this.onSubmit}>
 
-            <label><input type="checkbox" name="block1"
-              onChange={this.handleChange} />Block 1</label>
+            <label><input type="checkbox" name="pump1"
+              onChange={this.handleChange} />Pump 1</label>
 
-            <label><input type="checkbox" name="block2"
-              onChange={this.handleChange} />Block 2</label>
+            <label><input type="checkbox" name="pump2"
+              onChange={this.handleChange} />Pump 2</label>
 
-            <label><input type="checkbox" name="block3"
-              onChange={this.handleChange} />Block 3</label>
+            <label><input type="checkbox" name="pump3"
+              onChange={this.handleChange} />Pump 3</label>
 
             <label>Flow: <input type="text" name="flow"
               defaultValue={this.state.flow} onChange={this.handleChange} />
