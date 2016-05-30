@@ -295,7 +295,7 @@
       var WaterPressure = React.createClass({
         getInitialState: function() {
           return {
-            allDays: [{block1: 1, block2: 2, block3: 3, flow: 250}],
+            allDays: [],
             block1: false,
             block2: false,
             block3: false,
@@ -305,7 +305,36 @@
 
         calculate: function(e) {
           e.preventDefault();
-          this.setState({result: 50})
+          
+          var that = this;
+          var blocksMatch = function(elem) {
+            return elem.block1 == that.state.block1 &&
+              elem.block2 == that.state.block2 &&
+              elem.block3 == that.state.block3
+          }
+
+          var sum = function(values) {
+            return values.reduce(function(prev, current, i, arr) {
+              return parseInt(prev) + parseInt(current);
+            }, 0);
+          };
+
+          var flows = function(days) {
+            return days.map(function(day) {
+              return day.flow;
+            });
+          };
+
+          var average = function(sum, n) {
+            if (n == 0) return 0;
+            return sum / n
+          };
+
+          var matchingDays = this.state.allDays.filter(blocksMatch)
+          var sumOfFlows = sum(flows(matchingDays));
+          console.log(matchingDays, sumOfFlows)
+
+          this.setState({result: average(sumOfFlows, matchingDays.length)})
         },
 
         componentDidMount: function() {
