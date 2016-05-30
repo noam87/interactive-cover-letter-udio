@@ -6,7 +6,7 @@
     <link href='https://fonts.googleapis.com/css?family=Caudex:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <style>
       body {
-        background-image: url("green_cup.png");
+        background-image: url("waves.png");
         color: #694E46;
         font-family: 'Caudex', serif;
         font-size: 16px;
@@ -17,7 +17,7 @@
       }
 
       #content {
-        background-image: url("fabric_background.png");
+        background-color: white;
         width: 600px;
         min-height: 300px;
         margin: 0 auto;
@@ -26,6 +26,15 @@
         box-shadow: black 3px 8px 25px 3px;
         padding: 20px;
       }
+
+      .text {
+        min-width: 100px;
+        max-width: 600px;
+      }
+
+      .favorite { color: darkblue; font-style: italic; }
+
+      .reason { color: red; font-weight: bold; }
 
       .hidden {
         display: none;
@@ -54,17 +63,14 @@
       var onlyShowSlide = function(slide, that) {
         document.addEventListener('showslide', function(e) {
           if (e.detail == slide) {
-            console.log("Showing slide: ", slide);
             that.props.show();
           } else  {
-            console.log("Hiding slide: ", slide);
             that.props.hide();
           }
         });
       }
 
       window.showSlide = function(slide) {
-        console.log("Turning to slide ", slide);
         var slideEvent = new CustomEvent('showslide', { detail: slide })
         document.dispatchEvent(slideEvent);
       };
@@ -101,7 +107,6 @@
         },
 
         handleSubmit: function(e) {
-          console.log("pooooo")
           e.preventDefault();
           NAME = this.state.name.trim();
           if (this.state.name == '') { return; }
@@ -110,7 +115,7 @@
 
         render: function() {
           return (
-            <form className="commentForm" onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <input
                 type="text"
                 placeholder="Your name"
@@ -130,14 +135,329 @@
           onlyShowSlide('Welcome', this);
         },
 
+        nextPage: function(e) {
+          e.preventDefault();
+          showSlide('OnSlides');
+        },
+
         render: function() {
           return (
-            <p>
-              Oh, nice to see you again, {NAME}.
-            </p>
+            <div>
+              <p>
+                Oh, nice to see you again, {NAME}.
+              </p>
+
+              <p>
+                Well, I figured the best way to apply for this programming
+                position would be to write a little program.
+              </p>
+
+              <p>
+                I wrote this from scratch on Sunday over just a few hours. I used
+                Facebook's <a href="https://facebook.github.io/react/" target="blank">React library</a>. I've never used React before, so I had
+                to learn it as I went.
+              </p>
+
+              <p>
+                I know you're a little worried because I've not coded in
+                Node / Mongo for a while, and haven't used Angular... but as
+                you can see, learning new frameworks is pretty easy (even in
+                one day)!
+              </p>
+
+              <form onSubmit={this.nextPage}>
+                <input type="submit" value="Next" />
+              </form>
+            </div>
           );
         }
       });
+
+      // OnSlides
+
+      var OnSlides = React.createClass({
+        componentDidMount: function() {
+          onlyShowSlide('OnSlides', this);
+        },
+
+        nextPage: function(e) {
+          e.preventDefault();
+          showSlide('Principles');
+        },
+
+        render: function() {
+          return (
+            <div>
+              <p>
+                Of course, React is a very simple library, and doesn't handle
+                single-page-routing out of the box. Which means that I had to
+                do one of my favorite things in the world:
+              </p>
+
+              <p className="favorite">
+                Quickly hacking a simple, good-enough-for-the-task solution.
+              </p>
+
+              <p>
+                I imagine working at an innovative tech company like dio
+                I'll be doing a lot of that. So
+                that's <span className="reason">REASON #1</span> why I would like to work
+                at Udio.
+              </p>
+
+              <blockquote>
+                <p>
+                  (If you're curious, in React, unlike Angular, data only flows in
+                  one direction, which lead me to the conundrum of how
+                  do I tell the parent container to show the next slide.
+                </p>
+
+                <p>
+                  My solution is event-based pagination: on
+                  every child of a <code>Slide</code> component's initialization,
+                  I register an event listener, I also pass a function with
+                  the slide's context so that the child may call a "hide"
+                  or "show" function.
+                </p>
+
+                <p>
+                  Then, for example, the "next" button you pressed on the last
+                  page will trigger that event, and only pages that match
+                  the name being triggered will show.
+                </p>
+
+                <p>
+                  Feel free to look at the code, it's all contained in this
+                  HTML file!)
+                </p>
+              </blockquote>
+
+              <form onSubmit={this.nextPage}>
+                <input type="submit" value="Trigget a showSlide event!" />
+              </form>
+            </div>
+          );
+        }
+      });
+
+
+      // Principles
+
+      var Principles = React.createClass({
+        componentDidMount: function() {
+          onlyShowSlide('Principles', this);
+        },
+
+        nextPage: function(e) {
+          e.preventDefault();
+          showSlide('WaterPressure');
+        },
+
+        render: function() {
+          return (
+            <div>
+              <p>
+                Because frameworks=of-the-week come and go, the cool
+                part is understanding
+                how to use solid software development principles to
+                tackles <em>any</em> unknown problem!
+              </p>
+
+              <p>
+                For example, once I came up with a simple pagination
+                abstraction for this little program, the rest was as easy
+                as writing text. I could write and write forever now!
+                (don't worry, I won't... almost done.)
+              </p>
+
+              <p>
+                Which leads me to <span className="reason">REASON #2</span>
+                why I would like to join Udio. Which is that I'll get to learn
+                lots of new things and solve new problems in a domain I've never
+                worked!
+              </p>
+
+              <p>
+                But anyway, this is an interview after all, and I'm talking
+                too much. Now it's your turn to ask <em>me</em> a question...
+              </p>
+
+              <form onSubmit={this.nextPage}>
+                <input type="submit" value="Ask me about water pressure..." />
+              </form>
+            </div>
+          );
+        }
+      });
+
+      // WaterPressure
+
+      var WaterPressure = React.createClass({
+        getInitialState: function() {
+          return {
+            allDays: [{block1: 1, block2: 2, block3: 3, flow: 250}],
+            block1: false,
+            block2: false,
+            block3: false,
+            result: 0
+          };
+        },
+
+        calculate: function(e) {
+          e.preventDefault();
+          this.setState({result: 50})
+        },
+
+        componentDidMount: function() {
+          onlyShowSlide('WaterPressure', this);
+        },
+
+        addDay: function(that) {
+          return function(day) {
+            that.state.allDays.push(day);
+            that.setState({allDays: that.state.allDays});
+          };
+        },
+
+        nextPage: function(e) {
+          e.preventDefault();
+          showSlide('OnSlides');
+        },
+
+        handleChange: function(e) {
+          if (e.target.name == "block1") {
+            this.setState({block1: e.target.checked});
+          } else if (e.target.name == "block2") {
+            this.setState({block2: e.target.checked});
+          } else if (e.target.name == "block3") {
+            this.setState({block3: e.target.checked});
+          }
+        },
+
+        clear: function(e) {
+          e.preventDefault();
+          this.setState(this.getInitialState());
+        },
+
+        render: function() {
+          var days = this.state.allDays.map(function(day) {
+            return <li><Day block1={day.block1} block2={day.block2}
+                            block3={day.block3} flow={day.flow} /></li>
+          });
+
+          return (
+            <div>
+              <ul>
+                {days}
+              </ul>
+
+              <br />
+
+              <NewDay addDay={this.addDay(this)} />
+
+              <br />
+              <hr />
+
+              <form onSubmit={this.calculate}>
+
+                <label><input type="checkbox" name="block1"
+                  onChange={this.handleChange} />Block 1</label>
+
+                <label><input type="checkbox" name="block2"
+                  onChange={this.handleChange} />Block 2</label>
+
+                <label><input type="checkbox" name="block3"
+                  onChange={this.handleChange} />Block 3</label>
+
+                <br />
+
+                <input type="submit" value="Calculate Average!" />
+              </form>
+
+              <br />
+
+              <form onSubmit={this.clear}>
+                <input type="submit" value="Clear Result!" />
+              </form>
+
+              <p>
+                RESULT: {this.state.result}
+              </p>
+            </div>
+          );
+        }
+      });
+
+      var Day = React.createClass({
+        showBlock: function(bool) {
+          return bool ? "on" : "off"
+        },
+
+        render: function() {
+          return (<div>Blocks:
+            &nbsp;{this.showBlock(this.props.block1)}
+            &nbsp;{this.showBlock(this.props.block2)}
+            &nbsp;{this.showBlock(this.props.block3)} | Water Flow: {this.props.flow}</div>);
+        }
+      });
+
+      var NewDay = React.createClass({
+        getInitialState: function() {
+          return {flow: 0, block1: false, block2: false, block3: false};
+        },
+
+        onSubmit: function(e) {
+          e.preventDefault();
+          this.props.addDay({
+            flow: this.state.flow,
+            block1: this.state.block1,
+            block2: this.state.block2,
+            block3: this.state.block3
+          });
+        },
+
+        handleChange: function(e) {
+          if (e.target.name == "flow") {
+            this.setState({flow: e.target.value});
+          } else if (e.target.name == "block1") {
+            this.setState({block1: e.target.checked});
+          } else if (e.target.name == "block2") {
+            console.log("targetname", e.target.name, e.target.checked)
+            this.setState({block2: e.target.checked});
+          } else if (e.target.name == "block3") {
+            this.setState({block3: e.target.checked});
+          }
+        },
+
+        componentDidMount: function() {
+        },
+
+        render: function() {
+          return (<form onSubmit={this.onSubmit}>
+
+            <label><input type="checkbox" name="block1"
+              onChange={this.handleChange} />Block 1</label>
+
+            <label><input type="checkbox" name="block2"
+              onChange={this.handleChange} />Block 2</label>
+
+            <label><input type="checkbox" name="block3"
+              onChange={this.handleChange} />Block 3</label>
+
+            <label>Flow: <input type="text" name="flow"
+              defaultValue={this.state.flow} onChange={this.handleChange} />
+            </label>
+
+            <br />
+
+            <input type="submit" value="Add day's data" />
+          </form>);
+        }
+      });
+
+      //////////////////////////////////////////////////////////////////////////
+      // Slides Logic
+
 
       // Slide element to either show or hide contents.
       var Slide = React.createClass({
@@ -177,6 +497,9 @@
             <div>
               <Slide hideOnStart={false}><AskForName /></Slide>
               <Slide hideOnStart={true}><Welcome /></Slide>
+              <Slide hideOnStart={true}><OnSlides /></Slide>
+              <Slide hideOnStart={true}><Principles /></Slide>
+              <Slide hideOnStart={true}><WaterPressure /></Slide>
             </div>
           );
         }
